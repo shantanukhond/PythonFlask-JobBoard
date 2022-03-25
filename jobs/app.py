@@ -7,3 +7,7 @@ app = Flask(__name__)
 @app.route('/jobs')
 def jobs():
     return render_template('index.html')
+
+
+def url_for():
+    return '../static/css/bulma.min.css'
