@@ -1,6 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, flash
-
-#__name__ = 'Flask App'
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
