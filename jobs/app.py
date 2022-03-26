@@ -9,9 +9,8 @@ app = Flask(__name__)
 def open_connection():
     connection = getattr(g, '_connection', None)
     if connection is None:
-        connection = sqlite3.connect(PATH)
-        g._connection = connection
-    sqlite3.Row = connection.row_factory
+        connection = g._connection = sqlite3.connect(PATH)
+    connection.row_factory = sqlite3.Row 
     return connection
 
 
@@ -21,11 +20,8 @@ def execute_sql(sql, values=(), commit=False, single=False):
 
     if commit:
         results = connection.commit()
-    elif single:
-        results = cursor.fetchone()
-    elif not single:
-        results = cursor.fetchall()
-
+    else:
+        results = cursor.fetchone() if single else cursor.fetchall()
     cursor.close()
     return results
 
@@ -40,8 +36,7 @@ def close_connection(exception):
 @app.route('/')
 @app.route('/jobs')
 def jobs():
-    sql = 'SELECT job.id, job.title, job.description, job.salary, employer.id as employer_id, employer.name as ' \
-          'employer_name FROM job JOIN employer ON employer.id = job.employer_id '
+    sql = 'SELECT job.id, job.title, job.description, job.salary, employer.id as employer_id, employer.name as employer_name FROM job JOIN employer ON employer.id = job.employer_id'
     jobs = execute_sql(sql)
     return render_template('index.html', jobs=jobs)
 
