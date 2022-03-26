@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+<!-- templates/employer.html -->
+{% block content %}
+  <h2>Jobs</h2>
+  {{ show_jobs(jobs) }}
+
+  <h2>Reviews</h2>
+     {% for review in reviews%}
+
+
+    <div class="box">
+      <article class="media">
+        <div class="media-left">
+            {% for _ in range(0, review['rating']): %}
+              <span class="fa fa-star checked"></span>
+            {% endfor %}
+
+            <h1>{{ employer['name'] }}</h1>
+            <div class="description">
+                <p>{{ employer['description'] }}</p>
+            </div>
+        </div>
+        <div class="media-content">
+          <div class="content">
+              <h1>{{review['title']}}</h1>
+              <div class="description">
+                  <h3>{{review['status']}}</h3>
+                  <h3>{{review['date']}}</h3>
+                  <h3>{{review['review']}}</h3>
+              </div>
+          </div>
+        </div>
+      </article>
+    </div>
+    {% endfor %}
+
+  <div class="columns">
+    <div class="column">
+      <a class="button is-info is-pulled-right">Create Review</a>
+    </div>
+  </div>
+{% endblock %}
+
